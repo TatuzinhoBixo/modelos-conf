@@ -1,0 +1,14 @@
+#Configuração Virtualhost NGINX http
+
+server {
+listen [::]:80;
+
+root /var/www/site;
+index index.html index.htm;
+
+server_name site.dominio;
+
+location / {
+  try_files $uri $uri/ =404;
+  }
+}
