@@ -1,0 +1,51 @@
+#Configurações de virtualhost 
+
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName site.dominio
+        ServerAlias www.site.dominio
+        DocumentRoot /var/www/site
+
+        <Directory /var/www/site/>
+                Options -Indexes +FollowSymLinks +MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        RedirectMatch ^/* http://site.dominio/subdominio
+
+        <Directory /var/www/site/wp-admin/>
+                Options -Indexes +FollowSymLinks +MultiViews
+                AllowOverride All
+                Order deny,allow
+                Deny from All
+                allow from x.x.x.x/x
+        </Directory>
+
+        <location /login-site>
+                Options -Indexes +FollowSymLinks +MultiViews
+                AllowOverride All
+                Order deny,allow
+                Deny from All
+                allow from x.x.x.x/x
+        </location>
+
+        <location /wp-login.php>
+                Options -Indexes +FollowSymLinks +MultiViews
+                AllowOverride All
+                Order deny,allow
+                Deny from All
+                allow from x.x.x.x/x
+        </location>
+
+        ErrorLog ${APACHE_LOG_DIR}/error-afeam.log
+        ErrorDocument 403 /not_found
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog ${APACHE_LOG_DIR}/access_site.log combined
+
+</Virtualhost>
+
