@@ -1,0 +1,44 @@
+#Configurações do virtual host
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    root /var/www/site;
+    index index.html index.htm;
+
+    server_name site.dominio;
+    server_name www.site.dominio;
+
+    rewrite ^ https://$host$request_uri? permanent;  #redirect para https
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    root /var/www/site;
+    index index.html index.htm;
+
+
+    server_name site.domino;
+    server_name www.site.domino;
+
+    ssl_certificate /etc/nginx/ssl/pasta/site.crt;
+    ssl_certificate_key /etc/nginx/ssl/pasta/site.key;
+
+    location / {
+        try_files $uri $uri/ @rewrites;
+
+}
+location /service-worker.js { expires off; add_header Cache-Control no-cache; access_log off; }
+
+    location @rewrites {
+        rewrite ^(.+)$ /index.html;
+        #rewrite ^(.+)$ /index.html last;
+    }
+
+    error_log /var/log/nginx/erro_site.log error;
+    access_log /var/log/nginx/access_site.log main;
+
+}
