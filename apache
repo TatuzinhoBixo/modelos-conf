@@ -1,68 +1,25 @@
-#<VirtualHost *:80>
+<VirtualHost *:80>
         ServerAdmin webmaster@localhost
-        ServerName www.afeam.am.gov.br
-        ServerAlias afeam.am.gov.br
+        ServerName www.site.com
+        ServerAlias site.com
 
-        RedirectMatch "^(.*)$" "https://www.afeam.am.gov.br$1"
+        DocumentRoot /var/www/site
 
-        LogLevel warn
-        ErrorLog ${APACHE_LOG_DIR}/error-afeam.log
-        CustomLog ${APACHE_LOG_DIR}/access_afeam.log combined
-</VirtualHost>
-
-<VirtualHost *:443>
-        ServerAdmin webmaster@localhost
-        ServerName www.afeam.am.gov.br
-        ServerAlias afeam.am.gov.br
-#       ServerAlias www.afeam.org.br
-#       ServerAlias afeam.org.br
-        DocumentRoot /var/www/afeam
-
-        SSLEngine on
-        SSLCertificateFile      /etc/apache2/ssl/afeam/afeam.crt
-        SSLCertificateKeyFile /etc/apache2/ssl/afeam/private.key
-        SSLCertificateChainFile /etc/apache2/ssl/afeam/inter.crt
-
-        <Directory /var/www/afeam/>
-                Options -Indexes +FollowSymLinks +MultiViews
+        <Directory /var/www/site/>
+                Options Indexes FollowSymLinks MultiViews
                 AllowOverride All
                 Order allow,deny
                 allow from all
+                #allow from 10.0.0.0/8
         </Directory>
 
-        #RedirectMatch ^/* http://siscad.cetam.am.gov.br/inscricoes
+        ErrorLog ${APACHE_LOG_DIR}/error-ugpe-ppa.log
 
-        <Directory /var/www/afeam/wp-admin/>
-                Options -Indexes +FollowSymLinks +MultiViews
-                AllowOverride All
-                Order deny,allow
-                Deny from All
-                allow from 10.0.0.0/8 200.242.43.186 200.208.153.196 200.174.24.18
-        </Directory>
-
-        <location /login-afeam>
-                Options -Indexes +FollowSymLinks +MultiViews
-                AllowOverride All
-                Order deny,allow
-                Deny from All
-                allow from 10.0.0.0/8 200.242.43.186 200.208.153.196 200.174.24.18
-        </location>
-
-        <location /wp-login.php>
-                Options -Indexes +FollowSymLinks +MultiViews
-                AllowOverride All
-                Order deny,allow
-                Deny from All
-                allow from 10.0.0.0/8 200.242.43.186 200.208.153.196 200.174.24.18
-        </location>
-
-        ErrorLog ${APACHE_LOG_DIR}/error-afeam.log
-        ErrorDocument 403 /not_found
         # Possible values include: debug, info, notice, warn, error, crit,
         # alert, emerg.
-        LogLevel warn
+        LogLevel error
 
-        CustomLog ${APACHE_LOG_DIR}/access_afeam.log combined
+        CustomLog ${APACHE_LOG_DIR}/access-ugpe-ppa.log combined
 
-</Virtualhost>
+</VirtualHost>
 
