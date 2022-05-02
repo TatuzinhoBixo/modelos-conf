@@ -1,0 +1,72 @@
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName www.fapeam.am.gov.br
+        ServerAlias fapeam.am.gov.br
+        DocumentRoot /var/www/fapeam
+
+        <Directory /var/www/fapeam/>
+                Options FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+#       <Directory /var/www/fapeam/wp-admin>
+#                       Options -Indexes +FollowSymLinks +MultiViews
+#                       AllowOverride All
+#                       Order deny,allow
+#                       Deny from All
+#                #allow from all
+#                allow from 200.242.37.25/32 10.0.0.0/8 131.255.80.0/22 177.66.8.82 177.66.14.200 131.255.81.146 177.66.10.60
+#       </Directory>
+
+        <location /login-fapeam>
+                Options -Indexes +FollowSymLinks +MultiViews
+                Order deny,allow
+                Deny from All
+                #allow from all
+                allow from 200.242.37.25/32 10.0.0.0/8 131.255.80.0/22 177.66.8.82 177.66.14.200 131.255.81.146 177.66.10.60
+        </location>
+
+
+        <location /wp-login.php>
+                Options -Indexes +FollowSymLinks +MultiViews
+                Order deny,allow
+                Deny from All
+                #allow from all
+                allow from 200.242.37.25/32 10.0.0.0/8 131.255.80.0/22 177.66.8.82 177.66.14.200 131.255.81.146 177.66.10.60
+        </location>
+
+        ErrorLog ${APACHE_LOG_DIR}/fapeam_error.log
+        #ErrorDocument 403 /not/found
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel emerg
+
+        CustomLog ${APACHE_LOG_DIR}/fapeam_access.log combined
+</Virtualhost>
+
+<VirtualHost *:443>
+        ServerName www.fapeam.am.gov.br
+        ServerAdmin webmaster@localhost
+
+        SSLEngine on
+        SSLCertificateFile /etc/apache2/apache.pem
+
+       DocumentRoot /var/www/fapeam/
+       <Directory /var/www/fapeam/>
+                Options -Indexes FollowSymLinks MultiViews
+                AllowOverride AuthConfig All
+                # AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+
+       ErrorLog ${APACHE_LOG_DIR}/error.log
+
+       # Possible values include: debug, info, notice, warn, error, crit,
+       # alert, emerg.
+       LogLevel emerg
+
+       CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
